@@ -1,0 +1,6 @@
+rootProject.name = 'honitor'
+include 'honitor-eureka'
+include 'honitor-gateway'
+include 'honitor-api'
+include 'honitor-core'
+include 'honitor-api-client'

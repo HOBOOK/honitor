@@ -1,0 +1,62 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name: "honitor-gateway"
+  profiles:
+    include:
+      - db
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+
+# Eureka client
+eureka:
+  instance:
+    instance-id: honitor-gateway
+    hostname: honitor-gateway
+    prefer-ip-address: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVER_NAME:honitor-eureka}:${EUREKA_SERVER_PORT:8787}/eureka/
+
+# Ribbon
+ribbon:
+  eureka:
+    enabled: true
+  okhttp:
+    enabled: true
+
+# Zuul
+zuul:
+  sensitiveHeaders : Cookie,Set-Cookie
+  host:
+    socket-timeout-millis: 30000
+  routes:
+    honitor-service:
+      path: /api/ai/**
+      service-id: honitor-api
+  ribbon:
+    eager-load:
+      enabled: true
+
+honitor-api:
+  ribbon:
+    ConnectTimeout: 10000
+    ReadTimeout: 10000
+
+honitor-api-client:
+  ribbon:
+    ConnectTimeout: 100000
+    ReadTimeout: 100000
+
+# Swagger
+springfox:
+  documentation:
+    swagger-ui:
+      base-url: /api

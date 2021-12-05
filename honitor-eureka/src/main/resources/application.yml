@@ -1,0 +1,17 @@
+server:
+  port: 8787
+
+spring:
+  application:
+    name: "honitor-eureka"
+
+
+# Eureka
+eureka:
+  instance:
+    hostname: 127.0.0.1
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVER_NAME:honitor-eureka}:${EUREKA_SERVER_PORT:8787}/eureka/
+    register-with-eureka: false
+    fetch-registry: false

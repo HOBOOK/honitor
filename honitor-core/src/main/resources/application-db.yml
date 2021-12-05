@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      host: honitor-mongo-db
+      port: 27017
+      database: vridge
+      username: vridge-admin
+      password: vazil523320!

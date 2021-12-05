@@ -1,0 +1,111 @@
+version: '3'
+services:
+    honitor-proxy:
+        build:
+            context: ./nginx
+        image: honitor-proxy
+        ports:
+            - "2080:80"
+        restart: "unless-stopped"
+#    honitor-mongo-db:
+#        image: mongo
+#        restart: always
+#        container_name: honitor-mongo-db
+#        ports:
+#            - "27017:27017"
+#        environment:
+#            MONGO_INITDB_ROOT_USERNAME: honitor-admin
+#            MONGO_INITDB_ROOT_PASSWORD: honitor
+#        volumes:
+#            - /data/mongodb/data/db:/data/db
+    honitor-eureka:
+        build:
+            context: ./honitor-eureka
+        image: honitor-eureka
+        container_name: honitor-eureka
+        ports:
+            - "8787:8787"
+        expose:
+            - "8787"
+        environment:
+            - EUREKA_SERVER_NAME=honitor-eureka
+        restart: "unless-stopped"
+    honitor-gateway:
+        build:
+            context: ./honitor-gateway
+        image: honitor-gateway
+        container_name: honitor-gateway
+        expose:
+            - "5000"
+        ports:
+            - "5000:5000"
+        environment:
+            - EUREKA_SERVER_NAME=honitor-eureka
+            - EUREKA_SERVER_PORT=8787
+        links:
+            - honitor-eureka
+            - honitor-api
+
+        restart: "unless-stopped"
+    honitor-api:
+        build:
+            context: ./honitor-api
+        image: honitor-api
+        container_name: honitor-api
+        expose:
+            - "5001"
+        links:
+            - honitor-eureka
+        depends_on:
+            - kafka
+            - zookeeper
+        environment:
+            KAFKA_BOOTSTRAP_SERVER: "kafka:9092"
+            INITIAL_DELAY: 30000
+            INTERVAL: 3000
+            TOPICS: "ho-1,ho-2"
+        restart: "unless-stopped"
+    honitor-api-client:
+        build:
+            context: ./honitor-api-client
+        image: honitor-api-client
+        container_name: honitor-api-client
+        expose:
+            - "5101"
+        depends_on:
+            -   kafka
+            -   zookeeper
+        restart: "unless-stopped"
+        environment:
+            KAFKA_BOOTSTRAP_SERVER: "kafka:9092"
+            KAFKA_GROUP_ID: "a"
+            TOPICS: "ho-1"
+    zookeeper:
+        container_name: zookeeper
+        image: confluentinc/cp-zookeeper:5.5.1
+        ports:
+            - "2181:2181"
+        environment:
+            ZOOKEEPER_CLIENT_PORT: 2181
+        healthcheck:
+            test: "echo stat | nc localhost $$ZOOKEEPER_CLIENT_PORT"
+            start_period: 30s
+    kafka:
+        container_name: kafka
+        image: confluentinc/cp-kafka:5.5.1
+        depends_on:
+            - zookeeper
+        ports:
+            - "9092:9092"
+        restart: unless-stopped
+        environment:
+            KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+            KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+            KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+            KAFKA_DELETE_TOPIC_ENABLE: "true"
+            KAFKA_ADVERTISED_HOST_NAME: kafka
+            KAFKA_CREATE_TOPICS: "ho-1:2:1, ho-2:1:1:delete" # Topic명:Partition개수:Replica개수:cleanup.policy(compact or delete)
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        healthcheck:
+            test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+            start_period: 30s

@@ -1,0 +1,8 @@
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-webflux')
+    implementation('org.springframework.kafka:spring-kafka')
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.8.RELEASE')
+}
