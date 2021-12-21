@@ -1,0 +1,16 @@
+.main-container{
+  .main-title-image{
+    width:100vw !important; 
+    height:600px !important;
+    position:absolute; 
+    top:0;
+    background-image: url("https://picsum.photos/1920/1080?random");
+    background-repeat : no-repeat;
+    background-size : cover;
+    
+  }
+  .main-content{
+    margin-top:600px;
+    z-index: 10;
+  }
+}

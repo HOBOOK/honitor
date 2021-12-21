@@ -20,6 +20,9 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    "~/assets/common.scss",
+    "~/assets/main.scss",
+    "~/assets/footer.scss",
   ],
 
   plugins: [
@@ -42,7 +45,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,

@@ -1,0 +1,49 @@
+html {
+    
+    overflow-y: auto !important;
+    &::-webkit-scrollbar {
+      width: 0.572rem; //8px;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-button {
+      width: 0.572rem; //8px;
+      height: 0.358rem; //5px;
+      
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border: thin solid transparent;
+      box-shadow: 0px 0px 0.215rem transparent inset; //3px
+      border-radius: 0.72rem; //10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+      border: thin solid transparent;
+      border-radius: 0.72rem; //10px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #7d7d7d;
+    }
+}
+  
+html:hover {
+    &::-webkit-scrollbar {
+        width: 0.572rem; //8px;
+        background-color: transparent;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+        border: thin solid transparent;
+        box-shadow: 0px 0px 0.215rem transparent inset; //3px
+        border-radius: 0.72rem; //10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #999;
+        border: thin solid gray;
+        border-radius: 0.72rem; //10px;
+    }
+}
+
+.v-application{
+    font-family: "Inter", 'NotoSansKR', "Helvetica Neue", Helvetica, Arial, "맑은 고딕", malgun gothic, "돋움", Dotum, sans-serif, "Apple Color Emoji", "Noto Color Emoji";
+}
