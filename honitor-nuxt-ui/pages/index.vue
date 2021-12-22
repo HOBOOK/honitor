@@ -7,7 +7,24 @@
     </div>
     <div class="main-content">
       dd
-      <my-symbol/>
+      <v-progress-linear
+        background-color="blue-grey"
+        indeterminate
+        height="3"
+        rounded
+        style="width:200px;"
+      ></v-progress-linear>
+      <!-- <my-symbol/> -->
     </div>
   </v-row>
 </template>
+<script>
+export default {
+  data () {
+    return {
+      loading:true,
+    }
+  },
+  
+}
+</script>

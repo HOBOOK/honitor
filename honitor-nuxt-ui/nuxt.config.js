@@ -18,6 +18,8 @@ export default {
     ]
   },
 
+  loading: '~/components/LoadingBar.vue',
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     "~/assets/common.scss",
@@ -28,6 +30,7 @@ export default {
   plugins: [
     '~/plugins/component.js',
     '~/plugins/global.js',
+    {src:"~plugins/vue-particles",ssr:false},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

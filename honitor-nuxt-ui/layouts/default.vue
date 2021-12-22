@@ -74,6 +74,12 @@ export default {
       rightDrawer: false,
       title: 'GHistory'
     }
+  },
+  mounted() {
+    this.$nextTick(()=> {
+      this.$nuxt.$loading.start()
+      setTimeout(() => this.$nuxt.$loading.finish(), 3000)
+    })
   }
 }
 </script>
